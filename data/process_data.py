@@ -41,7 +41,11 @@ def clean_data(df):
 
         # convert column from string to numeric
         categories[column] = categories[column].astype(int)
-        
+    
+    # Because of some columns in the data contain more than 2 unique values
+    # We need to transform other values that different from "0" to be one
+    categories = categories.applymap(lambda x: 0 if x == 0 else 1)
+    
     df.drop(columns=['categories'], inplace=True)
     
     df = pd.concat([df, categories], axis=1)
